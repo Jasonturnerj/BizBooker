@@ -8,7 +8,7 @@ db = SQLAlchemy()
 
 #Users table in the database
 class Users(db.Model):
-    __tablename__ = 'Users'
+    __tablename__ = 'users'
 
     id = db.Column(
         db.Integer,
@@ -43,7 +43,7 @@ class Users(db.Model):
 
 
     #business side of the table
-    class business(db.Model):
+class Business(db.Model):
         __tablename__ = 'businesses'
         
         id = db.Column(
@@ -53,7 +53,7 @@ class Users(db.Model):
         
         owner_id = db.Column(
         db.Integer,
-        db.Foreignkey('Users.id')
+        db.ForeignKey('users.id')
     )
 
         location = db.Column(
@@ -66,7 +66,7 @@ class Users(db.Model):
         db.Text,
         default="",
     )
-    class appointment(db.Model):
+class Appointment(db.Model):
         __tablename__ = 'appointments'
 
         id = db.Column(
@@ -76,19 +76,28 @@ class Users(db.Model):
         )
 
         date_of_apt = db.Column(
-            db.Datefield,
-            Nullable=False
+            db.Date,
+            nullable=False
         )
 
         start_time = db.Column(
-            db.Timefield,
+            db.Time,
             nullable=False,
         )
+        owner_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id')
+    )
+        business_id = db.Column(
+        db.Integer,
+        db.ForeignKey('businesses.id')
+    )
 
 
 
-    @classmethod
-    def signup(cls, username, email, password, image_url):
+
+@classmethod
+def signup(cls, username, email, password, image_url):
         """Sign up user.
 
         Hashes password and adds user to system.
@@ -106,8 +115,8 @@ class Users(db.Model):
         db.session.add(user)
         return user
 
-    @classmethod
-    def authenticate(cls, username, password):
+@classmethod
+def authenticate(cls, username, password):
         """Find user with `username` and `password`.
 
         This is a class method (call it on the class, not an individual user.)
@@ -127,13 +136,10 @@ class Users(db.Model):
         return False
     
 
-    #I need to make a classmethod to check for autheticatign user id and password for business
+    #I need to make a classmethod to check for authetication user id and password for business
     
 def connect_db(app):
-    """Connect this database to provided Flask app.
-
-    You should call this in your Flask app.
-    """
+    
 
     db.app = app
     db.init_app(app)

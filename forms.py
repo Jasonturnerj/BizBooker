@@ -20,3 +20,19 @@ class BusinessForm(FlaskForm):
 class AppointmentForm(FlaskForm):
     date_of_apt = DateField('Date of Appointment', validators=[DataRequired()])
     start_time = TimeField('Start Time', validators=[DataRequired()])
+
+class LoginForm(FlaskForm):
+    """Login form."""
+
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[Length(min=6)])
+
+class UserEditForm(FlaskForm):
+    """Edit User Form"""
+
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
+    image_url = StringField('(Optional) Image URL')
+    header_image_url = StringField('(Optional) Header Image URL')
+    bio = StringField('User Bio')
+    password = PasswordField('Password')
