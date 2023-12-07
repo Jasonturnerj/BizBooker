@@ -1,23 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Book Appointment</h1>
+    <h1>Appointments for {{ business.name }}</h1>
 
-    <form action="/appointments/{{ business_id }}" method="post">
-        <!-- Add CSRF token if using Flask-WTF -->
-        <!-- {{ form.csrf_token }} -->
-
-        <label for="date_of_apt">Date of Appointment:</label>
-        <input type="date" id="date_of_apt" name="date_of_apt" required>
+    <form method="post" action="{{ url_for('book_appointment', business_id=business.id) }}">
+        {{ form.csrf_token }}
+        <!-- Add form fields as needed -->
+        <label for="date_of_apt">Date:</label>
+        {{ form.date_of_apt(class="form-control", required="required") }}
 
         <label for="start_time">Start Time:</label>
-        <input type="time" id="start_time" name="start_time" required>
+        {{ form.start_time(class="form-control", required="required") }}
 
-        <!-- Add more input fields for additional appointment details -->
-
-        <button type="submit">Book Appointment</button>
+        <button type="submit" class="btn btn-primary">Book Appointment</button>
     </form>
 
-    <!-- Add a link or button to navigate back to the business details page -->
-    <a href="/businesses/{{ business_id }}">Back to Business</a>
+
+
 {% endblock %}

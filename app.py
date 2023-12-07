@@ -3,8 +3,9 @@
 
 import os
 
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template, request, flash, redirect, session, g, url_for, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_login import login_required
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
 
@@ -153,7 +154,8 @@ def show_business(business_id):
 
 @app.route('/appointments/<int:business_id>', methods=['GET', 'POST'])
 def book_appointment(business_id):
-    """Book an appointment for a specific business."""
+    """Book an appointment for a specific business."""    
+    business = Business.query.get_or_404(business_id)
     form = AppointmentForm()
 
     if form.validate_on_submit():
@@ -168,23 +170,32 @@ def book_appointment(business_id):
         db.session.add(new_appointment)
         db.session.commit()
 
-        flash('Appointment booked successfully!', 'success')
-        return redirect(f'/businesses/{business_id}')
+        
+        return redirect('/view')
 
-    return render_template('book.html', form=form)
+    return render_template('book.html', form=form, business=business)
+
 
 @app.route('/view')
 def view_appointments():
-    """View appointments for the current user or business."""
     user_id = session.get(CURR_USER_KEY)
 
     if not user_id:
-        flash('Please log in first.', 'danger')
         return redirect('/login')  # Redirect to login if not logged in
 
-        # user = Users.query.get_or_404(user_id)
-        # appointments = Appointment.query.filter((Appointment.owner_id == user.id) | (Appointment.business.id== user.id)).all()
-    return render_template('view.html')
+    user = Users.query.get_or_404(user_id)
+
+    hasBusiness = Business.query.filter_by(owner_id=user_id).first()
+
+    if hasBusiness:
+        # Business view: Show appointments for the business owned by the user
+        appointments = Appointment.query.filter_by(business_id=user.business.id).all()
+    else:
+        # User view: Show appointments booked by the user for other businesses
+        appointments = Appointment.query.filter_by(owner_id=user.id).all()
+
+    return render_template('view.html', user=user, appointments=appointments, url_for=url_for, hasBusiness=hasBusiness)
+
 
 
 @app.route('/users/delete', methods=["POST"])
@@ -201,6 +212,47 @@ def delete_user():
     db.session.commit()
 
     return redirect("/signup")
+
+@app.route('/get_appointments', methods=['GET'])
+def get_appointments():
+    user_id = session.get(CURR_USER_KEY)
+
+    if not user_id:
+        return jsonify([])  # Return an empty list if the user is not logged in
+
+    user = Users.query.get_or_404(user_id)
+    appointments = fetch_appointments_for_current_user(user)
+    return jsonify(appointments)
+
+def fetch_appointments_for_current_user(user):
+    if user.business_view:
+        # Business view: Fetch appointments for the business owned by the user
+        appointments = Appointment.query.filter_by(business_id=user.business.id).all()
+    else:
+        # User view: Fetch appointments booked by the user for other businesses
+        appointments = Appointment.query.filter_by(owner_id=user.id).all()
+
+    # Convert appointments to a format suitable for JSON serialization
+    return [{'business': {'location': app.business.location, 'bio': app.business.bio},
+             'date_of_apt': app.date_of_apt.strftime('%Y-%m-%d'),
+             'start_time': app.start_time.strftime('%H:%M')} for app in appointments]
+
+@app.route('/toggle_view', methods=['POST'])
+def toggle_view():
+    user_id = session.get(CURR_USER_KEY)
+
+    if not user_id:
+        return jsonify([])  # Return an empty list if the user is not logged in
+
+    user = Users.query.get_or_404(user_id)
+
+    # Toggle the user's view (personal or business)
+    user.business_view = not user.business_view
+    db.session.commit()
+
+    # Fetch and return updated appointments based on the toggled view
+    return get_appointments()
+
 
 connect_db(app)
 if __name__ == "__main__":

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>All Appointments</h1>
+
+{% if hasBusiness %}
+        <button id="toggleViewBtn">Toggle View</button>
+    {% endif %}
+
+<ul id="appointmentsList">
+    <!-- Appointments will be dynamically added here using AJAX -->
+</ul>
+
+<a href="{{ url_for('homepage') }}">Back to Homepage</a>
+
+<script src="{{ url_for('static', filename='js/appointments.js') }}"></script>
+
+
+
+    <!-- Add a link or button to navigate back to the homepage -->
+    <a href="{{ url_for('homepage') }}">Back to Homepage</a>
+{% endblock %}

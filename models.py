@@ -36,21 +36,14 @@ class Users(db.Model):
         db.Text,
     )
 
-    isBusiness = db.Column(
+    business_view = db.Column(
         db.Boolean,
-        default=False,
+        default=False
     )
 
-    businessView = db.Column(
-        db.Boolean,
-        default=False,
-    )
+    business = db.relationship('Business', backref='users', uselist=False)
 
-    businessId = db.Column(
-        db.Integer,
-        db.ForeignKey('businesses.id')
-    )
-
+    
 
     
 
@@ -104,7 +97,9 @@ class Business(db.Model):
     
     owner_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id')
+        db.ForeignKey('users.id'),
+        nullable=False,
+        unique=True
     )
 
     name = db.Column(
@@ -117,6 +112,7 @@ class Business(db.Model):
     bio = db.Column(
         db.Text,
     )
+    appointments = db.relationship('Appointment', backref='business', lazy=True)
      
 class Appointment(db.Model):
     __tablename__ = 'appointments'
@@ -142,12 +138,14 @@ class Appointment(db.Model):
 
     owner_id = db.Column(
         db.Integer,
-        db.ForeignKey('users.id')
+        db.ForeignKey('users.id'),
+        nullable=False
     )
     
     business_id = db.Column(
         db.Integer,
-        db.ForeignKey('businesses.id')
+        db.ForeignKey('businesses.id'),
+        nullable=False
     )
 
 
