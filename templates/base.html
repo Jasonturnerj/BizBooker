@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel=" stylesheet" href="'style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizBooker - Your Appointment Booking App</title>
+    <!-- Add your CSS stylesheets or styles here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            font-size: 16px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .cta-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to BizBooker</h1>
+    <p>Your go-to platform for seamless appointment booking!</p>
+
+    <a href="/signup" class="cta-button">Get Started</a>
+    <a href="/login" class="cta-button">Login</a>
+    <!-- Add more content or sections as needed -->
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+</html>
+
+    <footer>
+        <p>&copy; 2023 BizBooker. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

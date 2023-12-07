@@ -27,80 +27,38 @@ class Users(db.Model):
         unique=True,
     )
 
-    image_url = db.Column(
+    password = db.Column(
         db.Text,
-        default="",
+        nullable=False,
     )
 
     bio = db.Column(
         db.Text,
     )
 
-    password = db.Column(
-        db.Text,
-        nullable=False,
+    isBusiness = db.Column(
+        db.Boolean,
+        default=False,
     )
 
-
-    #business side of the table
-class Business(db.Model):
-        __tablename__ = 'businesses'
-        
-        id = db.Column(
-        db.Integer,
-        primary_key=True,
-    )
-        
-        owner_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id')
+    businessView = db.Column(
+        db.Boolean,
+        default=False,
     )
 
-        location = db.Column(
-        db.Text,
-    )
-        bio = db.Column(
-        db.Text,
-    )
-        image_url = db.Column(
-        db.Text,
-        default="",
-    )
-class Appointment(db.Model):
-        __tablename__ = 'appointments'
-
-        id = db.Column(
-            db.Integer,
-            primary_key=True,
-        
-        )
-
-        date_of_apt = db.Column(
-            db.Date,
-            nullable=False
-        )
-
-        start_time = db.Column(
-            db.Time,
-            nullable=False,
-        )
-        owner_id = db.Column(
-        db.Integer,
-        db.ForeignKey('users.id')
-    )
-        business_id = db.Column(
+    businessId = db.Column(
         db.Integer,
         db.ForeignKey('businesses.id')
     )
 
 
+    
 
-
-@classmethod
-def signup(cls, username, email, password, image_url):
+    @classmethod
+    def signup(cls, username, email, bio, password):
         """Sign up user.
 
-        Hashes password and adds user to system.
+            Hashes password and adds user to system.
         """
 
         hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
@@ -109,14 +67,14 @@ def signup(cls, username, email, password, image_url):
                 username=username,
                 email=email,
                 password=hashed_pwd,
-                image_url=image_url,
+                bio=bio
                 )
 
         db.session.add(user)
         return user
 
-@classmethod
-def authenticate(cls, username, password):
+    @classmethod
+    def authenticate(cls, username, password):
         """Find user with `username` and `password`.
 
         This is a class method (call it on the class, not an individual user.)
@@ -134,12 +92,72 @@ def authenticate(cls, username, password):
                 return user
 
         return False
+
+    #business side of the table
+class Business(db.Model):
+    __tablename__ = 'businesses'
+    
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+    
+    owner_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id')
+    )
+
+    name = db.Column(
+        db.Text,
+    )
+
+    location = db.Column(
+        db.Text,
+    )
+    bio = db.Column(
+        db.Text,
+    )
+     
+class Appointment(db.Model):
+    __tablename__ = 'appointments'
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    
+    )
+
+    date_of_apt = db.Column(
+        db.Date,
+        nullable=False
+    )
+
+    start_time = db.Column(
+        db.Time,
+        nullable=False,
+    )
+    comment = db.Column(
+            db.Text,
+    )
+
+    owner_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id')
+    )
+    
+    business_id = db.Column(
+        db.Integer,
+        db.ForeignKey('businesses.id')
+    )
+
+
+
+
+
     
 
     #I need to make a classmethod to check for authetication user id and password for business
     
 def connect_db(app):
-    
-
     db.app = app
     db.init_app(app)

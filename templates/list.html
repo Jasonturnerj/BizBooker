@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Businesses</h2>
+
+    <ul>
+      {% for business in businesses %}
+        <li><a href="/businesses/{{ business.id }}">{{ business.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
