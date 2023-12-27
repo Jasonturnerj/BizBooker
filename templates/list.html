@@ -4,13 +4,13 @@
     <hr>
 </div>
     <div class="grid-container">
-        <div class="business-container">
-            {% for business in businesses %}
+        {% for business in businesses %}
+            <div class="business-container">
                 <h2 class="business-title">{{ business.name }}</h2>
                 <p>{{ business.location }}</p>
                 <p class="business-description">{{ business.bio }}</p>
                 <a class="button book-appointment" href="/appointments/{{ business.id }}">Book appointment</a>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

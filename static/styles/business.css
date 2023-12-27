@@ -1,5 +1,5 @@
 hr {
-    width: 65vw;
+    width: 67vw;
     margin-top: 0px;
     margin-right: 75vw; 
 }
@@ -20,6 +20,7 @@ hr {
     justify-content: flex-start;
     align-items: center;
     margin: 2vw 15vw 5vw 15vw;
+    gap: 25px;
 }
 
 .business-container {
@@ -48,5 +49,12 @@ hr {
     background-color: #226FED;
     font-size: 17px;
     margin-bottom: 12px;
+    align-self: center;
+}
+
+.create-business {
+    background-color: #226FED;
+    font-size: 17px;
+    margin-top: 25px;
     align-self: center;
 }

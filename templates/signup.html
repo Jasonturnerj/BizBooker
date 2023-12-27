@@ -4,10 +4,10 @@
     <div class="centered-container">
         <div class="form-container">
             <h1>sign up</h1>
-    
+
             <form action="/signup" method="post">
                 {{ form.hidden_tag() }}
-                
+
                 {% for field in form if field.widget.input_type != 'hidden' %}
                     {% for error in field.errors %}
                         <span class="text-danger">{{ error }}</span>
@@ -17,10 +17,10 @@
                 <button type="submit" class="button signup">sign up</button>
             </form>
 
-            <!-- Add a link or button to navigate to the login page -->
-            <div>
-                <a href="/login">Already have an account? Log in here.</a>
-            </div>
+                <!-- Add a link or button to navigate to the login page -->
+                <div>
+                    <a href="/login">Already have an account? Log in here.</a>
+                </div>
         </div>
     </div>
     {% endblock %}
