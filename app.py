@@ -8,7 +8,8 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import login_required
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
-
+from flask_wtf.csrf import generate_csrf
+from datetime import datetime, timedelta
 from forms import UserForm, LoginForm, AppointmentForm, BusinessForm,UserEditForm
 from models import db, connect_db, Users, Business, Appointment
 
@@ -19,7 +20,7 @@ app.app_context().push()
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql://postgres:1122@localhost/bizbooker'))
+    os.environ.get('DATABASE_URL', 'postgresql://postgres:1122@localhost/BizBooker'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
@@ -66,14 +67,21 @@ def signup():
     form = UserForm()
 
     if form.validate_on_submit():
-
+        print("Form Data:", form.data)
         user = Users.signup(
             username=form.username.data,
             password=form.password.data,
             email=form.email.data,
             bio=form.bio.data
         )
-        db.session.commit()
+
+        try:
+            print("Before commit")
+            db.session.commit()
+            print("After commit")
+        except Exception as e:
+            print(f"Error: {e}")
+            db.session.rollback()  # Rollback changes in case of an error
 
         return redirect('/login')
     
@@ -86,8 +94,11 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = Users.authenticate(form.username.data,
-                                 form.password.data)
+
+        user = Users.authenticate(
+            password=form.password.data,
+            username=form.username.data
+        )
 
         if user:
             do_login(user)
@@ -119,7 +130,6 @@ def create_business():
             bio=form.bio.data,
         )
         db.session.add(business)
-        db.session.update()
         db.session.commit()
 
         # Update the user's attribute
@@ -130,8 +140,9 @@ def create_business():
             db.session.commit()
 
         return redirect('/homepage')
-
+    
     return render_template('create.html', form=form)
+
 
 
 # ...
@@ -143,14 +154,13 @@ def list_businesses():
     return render_template('list.html', businesses=businesses)
 
 
+#This will be used at a later date but atm it is not needed
+#@app.route('/businesses/<int:business_id>')
+# def show_business(business_id):
+    ##business = Business.query.get_or_404(business_id)
+    #appointments = Appointment.query.filter_by(business_id=business_id).all()
 
-@app.route('/businesses/<int:business_id>')
-def show_business(business_id):
-    """Show details of a business and available appointments."""
-    business = Business.query.get_or_404(business_id)
-    appointments = Appointment.query.filter_by(business_id=business_id).all()
-
-    return render_template('show.html', business=business, appointments=appointments)
+   # return render_template('show.html', business=business, appointments=appointments)
 
 @app.route('/appointments/<int:business_id>', methods=['GET', 'POST'])
 def book_appointment(business_id):
@@ -159,6 +169,10 @@ def book_appointment(business_id):
     form = AppointmentForm()
 
     if form.validate_on_submit():
+        # Extract start time from the f
+
+        # Calculate end time (start time + 30 minutes)
+
         # Create a new appointment
         new_appointment = Appointment(
             date_of_apt=form.date_of_apt.data,
@@ -170,7 +184,6 @@ def book_appointment(business_id):
         db.session.add(new_appointment)
         db.session.commit()
 
-        
         return redirect('/view')
 
     return render_template('book.html', form=form, business=business)
@@ -194,7 +207,7 @@ def view_appointments():
         # User view: Show appointments booked by the user for other businesses
         appointments = Appointment.query.filter_by(owner_id=user.id).all()
 
-    return render_template('view.html', user=user, appointments=appointments, url_for=url_for, hasBusiness=hasBusiness)
+    return render_template('view.html', user=user, appointments=appointments,business=user.business, url_for=url_for, hasBusiness=hasBusiness)
 
 
 

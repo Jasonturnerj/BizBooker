@@ -5,9 +5,10 @@
   <div class="container">
     <h2>Create a Business</h2>
     <form method="post" action="/create">
-      {{ form.hidden_tag() }}
+
+      {{ form.hidden_tag() }} {# Include CSRF token here #}
       
-      {% for field in form %}
+      {% for field in form if field.name != 'csrf_token' %}
         <div class="form-group">
           {{ field.label(class="form-control-label") }}
           {{ field(class="form-control") }}

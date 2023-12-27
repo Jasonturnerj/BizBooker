@@ -6,8 +6,18 @@
 
     <ul>
       {% for business in businesses %}
-        <li><a href="/businesses/{{ business.id }}">{{ business.name }}</a></li>
+        <li>
+          <a href="/businesses/{{ business.id }}">{{ business.name }}</a>
+          <ul>
+            <li>
+              <h2>{{ business.location }}</h2>
+              <p>{{ business.bio }}</p>
+              <a class="btn btn-success" href="/appointments/{{ business.id }}">Book appointment</a>
+            </li>
+          </ul>
+        </li>
       {% endfor %}
     </ul>
   </div>
 {% endblock %}
+
