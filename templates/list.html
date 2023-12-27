@@ -1,23 +1,16 @@
-{% extends 'base.html' %}
-
-{% block content %}
-  <div class="container">
-    <h2>Businesses</h2>
-
-    <ul>
-      {% for business in businesses %}
-        <li>
-          <a href="/businesses/{{ business.id }}">{{ business.name }}</a>
-          <ul>
-            <li>
-              <h2>{{ business.location }}</h2>
-              <p>{{ business.bio }}</p>
-              <a class="btn btn-success" href="/appointments/{{ business.id }}">Book appointment</a>
-            </li>
-          </ul>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+{% extends 'base.html' %} {% block content %}
+<div class="businesses-container">
+    <h1>Businesses</h1>
+    <hr>
+</div>
+    <div class="grid-container">
+        <div class="business-container">
+            {% for business in businesses %}
+                <h2 class="business-title">{{ business.name }}</h2>
+                <p>{{ business.location }}</p>
+                <p class="business-description">{{ business.bio }}</p>
+                <a class="button book-appointment" href="/appointments/{{ business.id }}">Book appointment</a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
-

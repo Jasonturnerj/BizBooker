@@ -20,7 +20,7 @@ app.app_context().push()
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql://postgres:1122@localhost/BizBooker'))
+    os.environ.get('DATABASE_URL', 'postgresql://postgres:1122@localhost/bizbooker'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
@@ -74,14 +74,10 @@ def signup():
             email=form.email.data,
             bio=form.bio.data
         )
+        db.session.add(user)
+        db.session.commit()
 
-        try:
-            print("Before commit")
-            db.session.commit()
-            print("After commit")
-        except Exception as e:
-            print(f"Error: {e}")
-            db.session.rollback()  # Rollback changes in case of an error
+          # Rollback changes in case of an error
 
         return redirect('/login')
     

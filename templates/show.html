@@ -1,20 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
+<h1>Businesses</h1>
 
-{% block content %}
-    <h1>Businesses</h1>
+<ul>
+    <li>
+        <h2>{{ business.location }}</h2>
+        <p>{{ business.bio }}</p>
 
-    <ul>
-        
-            <li>
-                <h2>{{ business.location }}</h2>
-                <p>{{ business.bio }}</p>
-                
-                <a class="btn btn-success" href="/appointments/{{ business.id }}">Book appointment</a>
-                <a href="/businesses/{{ business.id }}">View Business</a>
-            </li>
-        
-    </ul>
+        <a class="btn btn-success" href="/appointments/{{ business.id }}">Book appointment</a>
+    </li>
+</ul>
 
-    <!-- Add a link or button to navigate back to the homepage -->
-    
+<!-- Add a link or button to navigate back to the homepage -->
+
 {% endblock %}

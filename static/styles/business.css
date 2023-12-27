@@ -1,0 +1,52 @@
+hr {
+    width: 65vw;
+    margin-top: 0px;
+    margin-right: 75vw; 
+}
+
+.businesses-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 15vw;
+    margin-top: 5vw;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 2vw 15vw 5vw 15vw;
+}
+
+.business-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 3%;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    background-color: var(--secondary-color);
+    min-width: 250px;
+    min-height: 300px;
+}
+
+.business-title {
+    margin-bottom: 0px;
+}
+
+.business-description {
+    margin-bottom: 30px;
+    min-height: 150px;
+}
+
+.book-appointment {
+    background-color: #226FED;
+    font-size: 17px;
+    margin-bottom: 12px;
+    align-self: center;
+}

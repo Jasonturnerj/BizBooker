@@ -1,32 +1,27 @@
 <!-- create_business.html -->
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="centered-container">
+    <div class="form-container">
+        <h2>Create a Business</h2>
+        <form method="post" action="/create">
+            {{ form.hidden_tag() }} {# Include CSRF token here #} {% for field
+            in form if field.name != 'csrf_token' %}
+            <div class="form-group">
+                {{ field.label(class="form-control-label") }} {{
+                field(class="form-control") }} {% if field.errors %}
+                <ul class="errors">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}				
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
 
-{% block content %}
-  <div class="container">
-    <h2>Create a Business</h2>
-    <form method="post" action="/create">
-
-      {{ form.hidden_tag() }} {# Include CSRF token here #}
-      
-      {% for field in form if field.name != 'csrf_token' %}
-        <div class="form-group">
-          {{ field.label(class="form-control-label") }}
-          {{ field(class="form-control") }}
-          {% if field.errors %}
-            <ul class="errors">
-              {% for error in field.errors %}
-                <li>{{ error }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        </div>
-      {% endfor %}
-      
-      <button type="submit" class="btn btn-primary">Create Business</button>
-    </form>
-  </div>
+            <button type="submit" class="button ">
+                Create Business
+            </button>
+        </form>
+</div>
+</div>
 {% endblock %}
-
-
-
-
