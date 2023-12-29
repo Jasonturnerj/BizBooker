@@ -2,3 +2,25 @@
     background-color: var(--accent-color-1);
     font-size: 18px;
 }
+
+.vl {
+    border-left: 3px solid var(--accent-color-2);
+    height: 100vh;
+}
+
+.home-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-logo-container {
+    
+}
+
+.logo-home {
+    width: 300px;
+    max-width:100%;
+    height: auto;
+}
