@@ -1,20 +1,15 @@
-{% extends 'base.html' %}
-
-{% block content %}
-  <div class="container">
-    <h1>Welcome to BizBooker</h1>
-    <p>Explore businesses and book appointments with ease.</p>
-
-    {% if g.user %}
-      <p>Hello, {{ g.user.username }}!</p>
-      <a class="btn btn-secondary" href="/view">View Appointments</a>
-    {% else %}
-      <p>Not logged in? <a href="/login">Log in here</a> or</p>
-      <a class="btn btn-primary" href="/signup">Sign Up</a>
-    {% endif %}
-    <a class="btn btn-success" href="/businesses">Businesses</a>
-    <a class="btn btn-success" href="/create">Create Business Account</a>
-  </div>
+{% extends 'base.html' %} {% block content %}
+<div class="centered-container">
+    <div>
+        {% if g.user %}
+        <p>Hello, {{ g.user.username }}!</p>
+        {% else %}
+        <p>Not logged in? <a href="/login">Log in here</a> or</p>
+        <a class="button" href="/signup">Sign Up</a>
+        {% endif %}
+        <a class="button home-button" href="/view">View Appointments</a>
+        <a class="button home-button" href="/businesses">Businesses</a>
+        <a class="button home-button" href="/create">Create Business Account</a>
+    </div>
+</div>
 {% endblock %}
-
-

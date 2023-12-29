@@ -66,11 +66,11 @@ a {
 }
 
 .signup {
-    background-color: #525298;
+    background-color: var(--accent-color-2);
     font-size: 18px;
 }
 
 .login {
-    background-color: #226FED;
+    background-color: var(--accent-color-1);
     font-size: 18px;
 }
