@@ -1,26 +1,36 @@
-.home-button {
-    background-color: var(--accent-color-1);
-    font-size: 18px;
-}
-
-.vl {
-    border-left: 3px solid var(--accent-color-2);
-    height: 100vh;
-}
-
 .home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25vh;
+    font-size: 22px;
+}
+
+.logo-home {
+    width: 350px;
+    max-width:100%;
+    height: auto;
+}
+
+.home-buttons-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 20px;
 }
 
-.home-logo-container {
-    
+.home-container hr {
+    width: 35vw;
+    margin-top: 0px;
+    margin-left: 75%;
+    margin-bottom: 50px;
+    border: 1.5px solid;
+    border-color: var(--accent-color-2);
 }
 
-.logo-home {
-    width: 300px;
-    max-width:100%;
-    height: auto;
+.home-button {
+    background-color: var(--accent-color-1);
+    font-size: 18px;
 }

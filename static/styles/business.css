@@ -2,6 +2,8 @@ hr {
     width: 67vw;
     margin-top: 0px;
     margin-right: 75vw; 
+    border: 1.5px solid;
+    border-color: var(--accent-color-2);
 }
 
 .businesses-container {

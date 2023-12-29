@@ -232,7 +232,7 @@ def fetch_appointments_for_current_user(user):
         appointments = Appointment.query.filter_by(owner_id=user.id).all()
 
     # Convert appointments to a format suitable for JSON serialization
-    return [{'business': {'location': app.business.location, 'bio': app.business.bio},
+    return [{'business': {'name': app.business.name,'location': app.business.location, 'bio': app.business.bio},
              'date_of_apt': app.date_of_apt.strftime('%Y-%m-%d'),
              'start_time': app.start_time.strftime('%H:%M')} for app in appointments]
 

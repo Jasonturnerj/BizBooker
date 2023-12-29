@@ -4,24 +4,17 @@
     <div class="form-container">
         <h2>Create a Business</h2>
         <form method="post" action="/create">
-            {{ form.hidden_tag() }} {# Include CSRF token here #} {% for field
-            in form if field.name != 'csrf_token' %}
-            <div class="form-group">
-                {{ field.label(class="form-control-label") }} {{
-                field(class="form-control") }} {% if field.errors %}
-                <ul class="errors">
-                    {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                    {% endfor %}				
-                </ul>
-                {% endif %}
-            </div>
-            {% endfor %}
+            {{ form.hidden_tag() }} {# Include the CSRF token #} {% for field in
+            form if field.widget.input_type != 'hidden' %} {% for error in
+            field.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %} {{ field(placeholder=field.label.text,
+            class="form-control input") }} {% endfor %}
 
             <button type="submit" class="button create-business">
                 Create Business
             </button>
         </form>
-</div>
+    </div>
 </div>
 {% endblock %}

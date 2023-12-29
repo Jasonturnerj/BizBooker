@@ -2,15 +2,17 @@
 
 {% block content %}
 
-<h1>All Appointments</h1>
-
-{% if hasBusiness %}
-        <button id="toggleViewBtn">Toggle View</button>
+<div class="businesses-container">
+    <h1>All Appointments</h1>
+    {% if hasBusiness %}
+    <!-- <button id="toggleViewBtn">Toggle View</button> -->
     {% endif %}
+    <hr>
+</div>
 
-<ul id="appointmentsList">
-    <!-- Appointments will be dynamically added here using AJAX -->
-</ul>
+
+
+<div id="appointmentsList" class="grid-container"></div>
 
 
 <script src="{{ url_for('static', filename='js/appointments.js') }}"></script>

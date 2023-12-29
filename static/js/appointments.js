@@ -49,19 +49,21 @@ function toggleView() {
 function updateAppointmentsList(appointments) {
     // Update the appointments list in the UI
     let appointmentsList = document.getElementById('appointmentsList');
-    appointmentsList.innerHTML = '';  // Clear existing content
 
     for (let appointment of appointments) {
         // Create list item for each appointment and append to the list
-        let listItem = document.createElement('li');
-        listItem.innerHTML = `
+        let entry = document.createElement('div');
+        entry.classList.add('business-container')
+        entry.innerHTML = `
             <!-- Display appointment details -->
-            <h2>${appointment.business.location}</h2>
+            <h2>${appointment.business.name}</h2>
             <p>${appointment.business.bio}</p>
+            <p>${appointment.business.location}
+            <br><br>
             <strong>Date:</strong> ${appointment.date_of_apt}<br>
             <strong>Time:</strong> ${appointment.start_time}<br>
             <!-- Add more appointment details as needed -->
         `;
-        appointmentsList.appendChild(listItem);
+        appointmentsList.appendChild(entry);
     }
 }
