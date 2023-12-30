@@ -32,10 +32,6 @@ def create_app():
 
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
-    db.app_app(app)
-
-    app.register_blueprint()
-
     return app
 
 app = create_app()
